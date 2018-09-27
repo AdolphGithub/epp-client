@@ -4,7 +4,7 @@ namespace Guanjia;
 class Loader{
     // Metaregistrar\EPP\verisignEppConnection
     public static function autoloadRegistry($className) {
-        $fileName = str_replace('Metaregistrar\\EPP\\', '', $className);
+        $fileName = str_replace('Guanjia\\EPP\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Registries\\' . $fileName . '\\eppConnection.php';
         } else {
@@ -15,7 +15,7 @@ class Loader{
             //echo "Autoloaded registry epp $fileName\n";
             require($fileName);
         }
-        $fileName = str_replace('Metaregistrar\\TMCH\\', '', $className);
+        $fileName = str_replace('Guanjia\\TMCH\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Registries\\' . $fileName . '\\tmchConnection.php';
         } else {
@@ -30,7 +30,7 @@ class Loader{
 
     public static function autoloadEPP($className) {
         // First load data elements
-        $fileName = str_replace('Metaregistrar\\EPP\\', '', $className);
+        $fileName = str_replace('Guanjia\\EPP\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Protocols\\EPP\\eppData\\' . $fileName . '.php';
         } else {
@@ -42,7 +42,7 @@ class Loader{
             require($fileName);
         }
         // Then load protocol files
-        $fileName = str_replace('Metaregistrar\\', '', $className);
+        $fileName = str_replace('Guanjia\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Protocols\\' . $fileName . '.php';
             // Support for EPP Request file structure
@@ -74,7 +74,7 @@ class Loader{
 
     public static function autoloadTMCH($className) {
         // First load data elements
-        $fileName = str_replace('Metaregistrar\\TMCH\\', '', $className);
+        $fileName = str_replace('Guanjia\\TMCH\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Protocols\\TMCH\\tmchData\\' . $fileName . '.php';
         } else {
@@ -86,7 +86,7 @@ class Loader{
             require($fileName);
         }
         // Then load protocol files
-        $fileName = str_replace('Metaregistrar\\TMCH\\', '', $className);
+        $fileName = str_replace('Guanjia\\TMCH\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $fileName = __DIR__ . '\\Protocols\\TMCH\\' . $fileName . '.php';
             // Support for EPP Request file structure

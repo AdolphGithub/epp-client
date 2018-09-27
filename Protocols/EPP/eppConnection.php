@@ -172,7 +172,7 @@ class eppConnection {
             throw new eppException('Configuration file not specified on eppConnection:create');
         }
         if (isset($result['interface'])) {
-            $classname = 'Metaregistrar\\EPP\\'.$result['interface'];
+            $classname = 'Guanjia\\EPP\\'.$result['interface'];
 //            var_dump($classname);exit;
             $c = new $classname($debug);
             /* @var $c eppConnection */
@@ -197,40 +197,40 @@ class eppConnection {
         $this->setTimeout(10);
         $this->setLanguage($this->language);
         $this->setVersion($this->version);
-        $this->responses['Metaregistrar\\EPP\\eppHelloRequest'] = 'Metaregistrar\\EPP\\eppHelloResponse';
-        $this->responses['Metaregistrar\\EPP\\eppLoginRequest'] = 'Metaregistrar\\EPP\\eppLoginResponse';
-        $this->responses['Metaregistrar\\EPP\\eppLogoutRequest'] = 'Metaregistrar\\EPP\\eppLogoutResponse';
-        $this->responses['Metaregistrar\\EPP\\eppPollRequest'] = 'Metaregistrar\\EPP\\eppPollResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCheckDomainRequest'] = 'Metaregistrar\\EPP\\eppCheckDomainResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCheckContactRequest'] = 'Metaregistrar\\EPP\\eppCheckContactResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCheckHostRequest'] = 'Metaregistrar\\EPP\\eppCheckHostResponse';
-        $this->responses['Metaregistrar\\EPP\\eppInfoHostRequest'] = 'Metaregistrar\\EPP\\eppInfoHostResponse';
-        $this->responses['Metaregistrar\\EPP\\eppInfoContactRequest'] = 'Metaregistrar\\EPP\\eppInfoContactResponse';
-        $this->responses['Metaregistrar\\EPP\\eppInfoDomainRequest'] = 'Metaregistrar\\EPP\\eppInfoDomainResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCreateDomainRequest'] = 'Metaregistrar\\EPP\\eppCreateDomainResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCreateContactRequest'] = 'Metaregistrar\\EPP\\eppCreateContactResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCreateHostRequest'] = 'Metaregistrar\\EPP\\eppCreateHostResponse';
-        $this->responses['Metaregistrar\\EPP\\eppDeleteDomainRequest'] = 'Metaregistrar\\EPP\\eppDeleteResponse';
-        $this->responses['Metaregistrar\\EPP\\eppDeleteContactRequest'] = 'Metaregistrar\\EPP\\eppDeleteResponse';
-        $this->responses['Metaregistrar\\EPP\\eppDeleteHostRequest'] = 'Metaregistrar\\EPP\\eppDeleteResponse';
-        $this->responses['Metaregistrar\\EPP\\eppUndeleteRequest'] = 'Metaregistrar\\EPP\\eppUndeleteResponse';
-        $this->responses['Metaregistrar\\EPP\\eppUpdateDomainRequest'] = 'Metaregistrar\\EPP\\eppUpdateResponse';
-        $this->responses['Metaregistrar\\EPP\\eppUpdateContactRequest'] = 'Metaregistrar\\EPP\\eppUpdateResponse';
-        $this->responses['Metaregistrar\\EPP\\eppUpdateHostRequest'] = 'Metaregistrar\\EPP\\eppUpdateResponse';
-        $this->responses['Metaregistrar\\EPP\\eppRenewRequest'] = 'Metaregistrar\\EPP\\eppRenewResponse';
-        $this->responses['Metaregistrar\\EPP\\eppTransferRequest'] = 'Metaregistrar\\EPP\\eppTransferResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCheckRequest'] = 'Metaregistrar\\EPP\\eppCheckResponse';
-        $this->responses['Metaregistrar\\EPP\\eppCreateRequest'] = 'Metaregistrar\\EPP\\eppCreateResponse';
-        $this->responses['Metaregistrar\\EPP\\eppUpdateRequest'] = 'Metaregistrar\\EPP\\eppUpdateResponse';
-        $this->responses['Metaregistrar\\EPP\\eppDeleteRequest'] = 'Metaregistrar\\EPP\\eppDeleteResponse';
+        $this->responses['Guanjia\\EPP\\eppHelloRequest']   = 'Guanjia\\EPP\\eppHelloResponse';
+        $this->responses['Guanjia\\EPP\\eppLoginRequest']   = 'Guanjia\\EPP\\eppLoginResponse';
+        $this->responses['Guanjia\\EPP\\eppLogoutRequest']  = 'Guanjia\\EPP\\eppLogoutResponse';
+        $this->responses['Guanjia\\EPP\\eppPollRequest']    = 'Guanjia\\EPP\\eppPollResponse';
+        $this->responses['Guanjia\\EPP\\eppCheckDomainRequest'] = 'Guanjia\\EPP\\eppCheckDomainResponse';
+        $this->responses['Guanjia\\EPP\\eppCheckContactRequest']= 'Guanjia\\EPP\\eppCheckContactResponse';
+        $this->responses['Guanjia\\EPP\\eppCheckHostRequest'] = 'Guanjia\\EPP\\eppCheckHostResponse';
+        $this->responses['Guanjia\\EPP\\eppInfoHostRequest'] = 'Guanjia\\EPP\\eppInfoHostResponse';
+        $this->responses['Guanjia\\EPP\\eppInfoContactRequest'] = 'Guanjia\\EPP\\eppInfoContactResponse';
+        $this->responses['Guanjia\\EPP\\eppInfoDomainRequest'] = 'Guanjia\\EPP\\eppInfoDomainResponse';
+        $this->responses['Guanjia\\EPP\\eppCreateDomainRequest'] = 'Guanjia\\EPP\\eppCreateDomainResponse';
+        $this->responses['Guanjia\\EPP\\eppCreateContactRequest'] = 'Guanjia\\EPP\\eppCreateContactResponse';
+        $this->responses['Guanjia\\EPP\\eppCreateHostRequest'] = 'Guanjia\\EPP\\eppCreateHostResponse';
+        $this->responses['Guanjia\\EPP\\eppDeleteDomainRequest'] = 'Guanjia\\EPP\\eppDeleteResponse';
+        $this->responses['Guanjia\\EPP\\eppDeleteContactRequest'] = 'Guanjia\\EPP\\eppDeleteResponse';
+        $this->responses['Guanjia\\EPP\\eppDeleteHostRequest'] = 'Guanjia\\EPP\\eppDeleteResponse';
+        $this->responses['Guanjia\\EPP\\eppUndeleteRequest'] = 'Guanjia\\EPP\\eppUndeleteResponse';
+        $this->responses['Guanjia\\EPP\\eppUpdateDomainRequest'] = 'Guanjia\\EPP\\eppUpdateResponse';
+        $this->responses['Guanjia\\EPP\\eppUpdateContactRequest'] = 'Guanjia\\EPP\\eppUpdateResponse';
+        $this->responses['Guanjia\\EPP\\eppUpdateHostRequest'] = 'Guanjia\\EPP\\eppUpdateResponse';
+        $this->responses['Guanjia\\EPP\\eppRenewRequest'] = 'Guanjia\\EPP\\eppRenewResponse';
+        $this->responses['Guanjia\\EPP\\eppTransferRequest'] = 'Guanjia\\EPP\\eppTransferResponse';
+        $this->responses['Guanjia\\EPP\\eppCheckRequest'] = 'Guanjia\\EPP\\eppCheckResponse';
+        $this->responses['Guanjia\\EPP\\eppCreateRequest'] = 'Guanjia\\EPP\\eppCreateResponse';
+        $this->responses['Guanjia\\EPP\\eppUpdateRequest'] = 'Guanjia\\EPP\\eppUpdateResponse';
+        $this->responses['Guanjia\\EPP\\eppDeleteRequest'] = 'Guanjia\\EPP\\eppDeleteResponse';
 
         #
         # Read settings.ini or specified settings file
         #
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $path = str_replace('Metaregistrar\EPP\\',dirname(__FILE__).'\..\..\Registries\\',get_called_class());
+            $path = str_replace('Guanjia\EPP\\',dirname(__FILE__).'\..\..\Registries\\',get_called_class());
         } else {
-            $path = str_replace('Metaregistrar\EPP\\',dirname(__FILE__).'/../../Registries/',get_called_class());
+            $path = str_replace('Guanjia\EPP\\',dirname(__FILE__).'/../../Registries/',get_called_class());
         }
         if (!$settingsfile) {
             $settingsfile = 'settings.ini';
