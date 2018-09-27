@@ -5,13 +5,19 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Adolph",
+            "name": "AdolphGithub",
             "email": "1138027478@qq.com"
+        },
+        {
+            "name": "yyjun0801",
+            "email": "1203758830@qq.com"
         }
     ],
     "minimum-stability": "dev",
     "autoload":{
         "classmap" : [ "Protocols/", "Registries/" ]
     },
-    "require": {}
+    "require": {
+        "php": "^7.0"
+    }
 }

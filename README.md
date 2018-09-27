@@ -1,6 +1,7 @@
 ### epp-client
 epp登录客户端
-------
+
+--------------------
 已经支持的域名注册商:
 - SIDN (.nl)
 - dotAmsterdam
@@ -24,9 +25,9 @@ epp登录客户端
 - Verisign (.com and .net)
 ### 安装
 ```shell
-composer install guanjia/epp-client
+composer require "guanjia/epp-client:dev-master"
 ```
 ### 使用
-TODO
+详情请看Examples例子
 ### 感谢
 该扩展借鉴于metaregistrar/php-epp-client,特此感谢
