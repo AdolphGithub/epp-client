@@ -1,3 +1,5 @@
 /run.php
 /.idea
 /vendor
+/cert
+/settings.ini
