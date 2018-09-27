@@ -27,6 +27,6 @@ epp登录客户端
 composer install guanjia/epp-client
 ```
 ### 使用
-TODO
+详情请看Examples例子
 ### 感谢
 该扩展借鉴于metaregistrar/php-epp-client,特此感谢
