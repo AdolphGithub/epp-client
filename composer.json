@@ -1,0 +1,14 @@
+{
+    "name": "guanjia/verisign",
+    "description": "域名注册工具,对接多个注册局",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adolph",
+            "email": "1138027478@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
