@@ -1,7 +1,7 @@
 <?php
 namespace Guanjia\EPP;
 
-class verisignEppInfoContactRequest extends eppRequest
+class verisignEppInfoContactRequest extends verisignRequest
 {
     /**
      * ContactObject object to add namespaces to
@@ -40,22 +40,5 @@ class verisignEppInfoContactRequest extends eppRequest
             );
         }
         return $this->contact_object;
-    }
-
-    /**
-     * 增加扩展.
-     * @param string $type
-     */
-    private function appendExtension($type = 'dotCOM')
-    {
-        $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
-        $namestoreExt->setAttribute('xmlns:namestoreExt','http://www.verisign-grs.com/epp/namestoreExt-1.1');
-        $namestoreExt->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $namestoreExt->setAttribute('xsi:schemaLocation','http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd');
-        $namestoreExt->appendChild(
-            $this->createElement('namestoreExt:subProduct',$type)
-        );
-        $this->getExtension()->appendChild($namestoreExt);
-        $this->getCommand()->appendChild($this->getExtension());
     }
 }

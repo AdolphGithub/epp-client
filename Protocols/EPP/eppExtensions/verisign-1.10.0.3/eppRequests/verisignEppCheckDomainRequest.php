@@ -6,7 +6,7 @@ namespace Guanjia\EPP;
  * Class verisignEppCheckDomainRequest
  * @package Guanjia\EPP
  */
-class verisignEppCheckDomainRequest extends eppRequest
+class verisignEppCheckDomainRequest extends verisignRequest
 {
     /**
      * @var bool
@@ -29,7 +29,7 @@ class verisignEppCheckDomainRequest extends eppRequest
         $check->appendChild($this->domainobject);
         $this->getCommand()->appendChild($check);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');
-        $this->appendExtension($checkrequest);
+        $this->appendExtension($this->getHostType($checkrequest));
         $this->addDomains($checkrequest);
     }
 
@@ -46,21 +46,6 @@ class verisignEppCheckDomainRequest extends eppRequest
         foreach($domains as $domain){
             $this->domainobject->appendChild($this->createElement('domain:name', $domain));
         }
-    }
-
-    /**
-     * 添加扩展.
-     * @param $domains
-     */
-    public function appendExtension($domains)
-    {
-        $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
-        $namestoreExt->setAttribute('xmlns:namestoreExt', 'http://www.verisign-grs.com/epp/namestoreExt-1.1');
-        $namestoreExt->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $namestoreExt->setAttribute('xsi:schemaLocation', 'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd');
-        $subProduct = $this->createElement("namestoreExt:subProduct", $this->getHostType($domains));
-        $namestoreExt->appendChild($subProduct);
-        $this->getExtension()->appendChild($namestoreExt);
     }
 
 

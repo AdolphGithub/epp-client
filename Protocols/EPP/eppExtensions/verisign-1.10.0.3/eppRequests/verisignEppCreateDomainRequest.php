@@ -3,7 +3,7 @@
 namespace Guanjia\EPP;
 
 
-class verisignEppCreateDomainRequest extends eppRequest
+class verisignEppCreateDomainRequest extends verisignRequest
 {
     /**
      * @var bool
@@ -199,21 +199,5 @@ class verisignEppCreateDomainRequest extends eppRequest
 
     public function setForcehostattr($forcehostattr) {
         $this->forcehostattr = $forcehostattr;
-    }
-
-
-    /**
-     * 添加扩展.
-     * @param string $sub_product
-     */
-    public function appendExtension($sub_product = 'dotCom')
-    {
-        $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
-        $namestoreExt->setAttribute('xmlns:namestoreExt', 'http://www.verisign-grs.com/epp/namestoreExt-1.1');
-        $namestoreExt->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $namestoreExt->setAttribute('xsi:schemaLocation', 'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd');
-        $subProduct = $this->createElement("namestoreExt:subProduct", $sub_product);
-        $namestoreExt->appendChild($subProduct);
-        $this->getExtension()->appendChild($namestoreExt);
     }
 }
