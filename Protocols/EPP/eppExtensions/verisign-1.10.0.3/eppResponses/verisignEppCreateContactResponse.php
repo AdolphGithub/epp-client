@@ -1,6 +1,6 @@
 <?php
 
-namespace Metaregistrar\EPP;
+namespace Guanjia\EPP;
 
 
 class verisignEppCreateContactResponse extends verisignBaseResponse

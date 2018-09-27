@@ -1,5 +1,5 @@
 <?php
-namespace Metaregistrar\EPP;
+namespace Guanjia\EPP;
 
 
 class verisignEppCreateContactRequest extends eppRequest
