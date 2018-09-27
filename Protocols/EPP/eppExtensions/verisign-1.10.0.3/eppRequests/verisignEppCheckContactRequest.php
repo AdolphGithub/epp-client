@@ -6,7 +6,7 @@ namespace Guanjia\EPP;
  * Class verisignEppCheckDomainRequest
  * @package Guanjia\EPP
  */
-class verisignEppCheckContactRequest extends verisignRequest
+class verisignEppCheckContactRequest extends verisignBaseRequest
 {
     /**
      * @var bool

@@ -1,7 +1,7 @@
 <?php
 namespace Guanjia\EPP;
 
-class verisignEppInfoContactRequest extends verisignRequest
+class verisignEppInfoContactRequest extends verisignBaseRequest
 {
     /**
      * ContactObject object to add namespaces to

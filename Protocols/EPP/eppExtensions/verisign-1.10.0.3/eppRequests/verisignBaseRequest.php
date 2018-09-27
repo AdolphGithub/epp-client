@@ -1,7 +1,7 @@
 <?php
 namespace Guanjia\EPP;
 
-class verisignRequest extends eppRequest
+class verisignBaseRequest extends eppRequest
 {
     public function appendExtension($type = 'dotCOM')
     {

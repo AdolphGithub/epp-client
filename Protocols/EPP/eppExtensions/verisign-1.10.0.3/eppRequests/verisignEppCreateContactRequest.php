@@ -2,7 +2,7 @@
 namespace Guanjia\EPP;
 
 
-class verisignEppCreateContactRequest extends verisignRequest
+class verisignEppCreateContactRequest extends verisignBaseRequest
 {
     /**
      * @var bool
