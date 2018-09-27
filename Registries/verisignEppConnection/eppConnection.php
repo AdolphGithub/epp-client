@@ -1,5 +1,5 @@
 <?php
-namespace Guajia\EPP;
+namespace Guanjia\EPP;
 
 class verisignEppConnection extends eppConnection
 {
