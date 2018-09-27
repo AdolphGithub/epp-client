@@ -1,5 +1,5 @@
 {
-    "name": "guanjia/verisign",
+    "name": "guanjia/epp-client",
     "description": "域名注册工具,对接多个注册局",
     "type": "library",
     "license": "MIT",
@@ -10,5 +10,8 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload":{
+        "classmap" : [ "Protocols/", "Registries/" ]
+    },
     "require": {}
 }
