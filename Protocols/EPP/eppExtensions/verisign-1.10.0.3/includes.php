@@ -23,4 +23,5 @@ foreach($requestes as $request){
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckDomainRequest','Guanjia\\EPP\\verisignEppCheckDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckHostRequest','Guanjia\\EPP\\verisignEppCheckHostResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckContactRequest','Guanjia\\EPP\\verisignEppCheckContactResponse');
-$this->addCommandResponse('Metaregistrar\\EPP\\verisignEppCreateContactRequest','Metaregistrar\\EPP\\verisignEppCreateContactResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateContactRequest','Guanjia\\EPP\\verisignEppCreateContactResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoContactRequest','Guanjia\\EPP\\verisignEppInfoContactResponse');
