@@ -26,3 +26,4 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckContactRequest','Guanji
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateContactRequest','Guanjia\\EPP\\verisignEppCreateContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoContactRequest','Guanjia\\EPP\\verisignEppInfoContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteContactRequest','Guanjia\\EPP\\verisignEppDeleteContactResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateContactRequest','Guanjia\\EPP\\verisignEppUpdateContactResponse');

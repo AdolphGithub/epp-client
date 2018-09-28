@@ -54,7 +54,7 @@ class verisignBaseRequest extends eppRequest
 
             if(strpos($key,' ')){
                 $attributes = explode(' ',$key);
-                $key = array_shift($key);
+                $key = array_shift($attributes);
             }
 
             if(is_array($value)){
@@ -68,6 +68,7 @@ class verisignBaseRequest extends eppRequest
                     list($attr_key,$attr_value) = explode('=',$attr);
                     $temp_dom->setAttribute($attr_key,$attr_value);
                 }
+                unset($attributes);
             }
 
             $dom->appendChild($temp_dom);

@@ -5,7 +5,7 @@ class verisignEppUpdateContactRequest extends verisignBaseRequest
 {
     private $type = eppRequest::TYPE_UPDATE;
 
-    public function __construct(eppContact $epp_contact,eppContactPostalInfo $epp_postal_info,$sub_product = 'domCOM')
+    public function __construct(eppContact $epp_contact,eppContactPostalInfo $epp_postal_info,$sub_product = 'dotCOM')
     {
         parent::__construct();
         $element = $this->createElement($this->type);
@@ -42,16 +42,18 @@ class verisignEppUpdateContactRequest extends verisignBaseRequest
      */
     private function appendContacts(\DOMElement $dom,eppContact $epp_contact,eppContactPostalInfo $epp_postal_info)
     {
-        $contact_addr = $this->appendChildes($this->createElement('contact:addr'),[
+        $contact_addr = $this->createElement('contact:addr');
+
+        foreach($epp_postal_info->getStreets() as $street){
+            $contact_addr->appendChild($this->createElement('contact:street',$street));
+        }
+
+        $this->appendChildes($contact_addr,[
             'contact:city'  =>  $epp_postal_info->getCity(),
             'contact:sp'    =>  $epp_postal_info->getProvince(),
             'contact:pc'    =>  $epp_postal_info->getZipcode(),
             'contact:cc'    =>  $epp_postal_info->getCountrycode()
         ]);
-
-        foreach($epp_postal_info->getStreets() as $street){
-            $contact_addr->setAttribute('contact:street',$street);
-        }
 
         return $this->appendChildes($dom,[
             'contact:id'    =>  $epp_contact->getId(),
