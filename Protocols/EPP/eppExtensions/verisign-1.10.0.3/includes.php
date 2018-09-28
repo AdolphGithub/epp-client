@@ -30,6 +30,7 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppTransferContactRequest','Gua
 // host
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckHostRequest','Guanjia\\EPP\\verisignEppCheckHostResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteHostRequest','Guanjia\\EPP\\verisignEppDeleteHostResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoHostRequest','Guanjia\\EPP\\verisignEppInfoHostResponse');
 
 // domain
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckDomainRequest','Guanjia\\EPP\\verisignEppCheckDomainResponse');
