@@ -6,12 +6,15 @@ class verisignBaseRequest extends eppRequest
     public function appendExtension($type = 'dotCOM')
     {
         $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
-        $namestoreExt->setAttribute('xmlns:namestoreExt','http://www.verisign-grs.com/epp/namestoreExt-1.1');
-        $namestoreExt->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $namestoreExt->setAttribute('xsi:schemaLocation','http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd');
-        $namestoreExt->appendChild(
+
+        $this->setAttributes($namestoreExt,[
+            'xmlns:namestoreExt'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
+            'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
+        ])->appendChild(
             $this->createElement('namestoreExt:subProduct',$type)
         );
+
         $this->getExtension()->appendChild($namestoreExt);
         $this->getCommand()->appendChild($this->getExtension());
     }
@@ -22,7 +25,7 @@ class verisignBaseRequest extends eppRequest
      * @param array $attributes
      * @return \DOMElement
      */
-    public function setAttributes(\DOMElement $dom,array $attributes)
+    public function setAttributes(\DOMElement &$dom,array $attributes)
     {
         foreach($attributes as $key=>$value){
             $dom->setAttribute($key,$value);
