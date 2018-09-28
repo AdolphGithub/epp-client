@@ -1,5 +1,5 @@
 <?php
-namespace Guanjia\Epp;
+namespace Guanjia\EPP;
 
 class verisignEppInfoDomainRequest extends verisignBaseRequest
 {
@@ -14,37 +14,60 @@ class verisignEppInfoDomainRequest extends verisignBaseRequest
     const HOSTS_SUBORDINATE = 'sub';
     const HOSTS_NONE = 'none';
 
-    public function __construct($infodomain, $hosts = null, $namespacesinroot = true,$type = eppRequest::TYPE_INFO)
+    public function __construct($infodomain, $hosts = null, $extension = 'dotCOM',$type = eppRequest::TYPE_INFO)
     {
         parent::__construct();
         $info = $this->createElement($type);
-        $info->appendChild($this->createContact($infodomain));
+        if ($infodomain instanceof eppDomain) {
+            $info->appendChild($this->createContact($infodomain, $hosts));
+        }else {
+            throw new eppException('infodomainrequest的参数必须是eppDomain对象');
+        }
         $this->getCommand()->appendChild($info);
-        $this->appendExtension($type);
+        $this->appendExtension($extension);
     }
 
     /**
-     * 创建contact
-     * @param array $data
+     * @param eppDomain $domain
+     * @param null $hosts
      * @return \DomElement
+     * @throws eppException
      */
-    private function createContact(array $data)
+    private function createContact(eppDomain $domain, $hosts = null)
     {
+//        $delete = $this->appendChildes($this->createElement($this->type),[
+//            'domain:info' => $this->appendChildes($this->setAttributes($this->createElement('domain:info'),[
+//                'xmlns:contact'            =>  'urn:ietf:params:xml:ns:contact-1.0',
+//                'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
+//                'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd',
+//            ]),[
+//                'domain:name' =>  $domain->getDomainname()
+//            ])
+//        ]);
+//
+//        $this->getCommand()->appendChild($delete);
+
         $this->contact_object = $this->createElement('domain:info');
         $this->contact_object->setAttribute('xmlns:contact','urn:ietf:params:xml:ns:contact-1.0');
         $this->contact_object->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
         $this->contact_object->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd');
+//
 
-        $this->contact_object->appendChild(
-            $this->createElement('domain:name',$data['contact_id']));
+        $dname = $this->createElement('domain:name', $domain->getDomainname());
+        if ($hosts) {
+            if (($hosts == self::HOSTS_ALL) || ($hosts == self::HOSTS_DELEGATED) || ($hosts == self::HOSTS_NONE) || ($hosts == self::HOSTS_SUBORDINATE)) {
+                $dname->setAttribute('hosts', $hosts);
+            } else {
+                throw new eppException('宿主的内因的参数只能是所有的，没有，del或sub');
+            }
+            $this->contact_object->appendChild($dname);
+        }
 
-        if(array_key_exists('auth_info',$data) && $data['auth_info'])
+        if (!is_null($domain->getAuthorisationCode()))
         {
-            $this->contact_object->appendChild(
-                $this->createElement('contact:authInfo')->appendChild(
-                    $this->createElement('contact:pw',$data['auth_info'])
-                )
-            );
+            $authinfo = $this->createElement('domain:authInfo');
+            $authinfo->appendChild($this->createElement('domain:pw', $domain->getAuthorisationCode()));
+            $this->contact_object->appendChild($authinfo);
         }
         return $this->contact_object;
     }
