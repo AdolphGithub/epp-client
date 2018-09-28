@@ -54,7 +54,7 @@ class verisignEppCreateHostRequest extends eppRequest
      */
     public function setHost(eppHost $host) {
         if (!strlen($host->getHostname())) {
-            throw new eppException('No valid hostname in create host request');
+            throw new eppException('创建主机请求中没有有效的主机名');
         }
         #
         # Object create structure
