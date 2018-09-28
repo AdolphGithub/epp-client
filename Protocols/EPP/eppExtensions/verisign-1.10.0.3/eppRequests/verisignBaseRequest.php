@@ -15,4 +15,18 @@ class verisignBaseRequest extends eppRequest
         $this->getExtension()->appendChild($namestoreExt);
         $this->getCommand()->appendChild($this->getExtension());
     }
+
+    /**
+     * 批量赋值.
+     * @param \DOMElement $dom
+     * @param array $attributes
+     * @return \DOMElement
+     */
+    public function setAttributes(\DOMElement $dom,array $attributes)
+    {
+        foreach($attributes as $key=>$value){
+            $dom->setAttribute($key,$value);
+        }
+        return $dom;
+    }
 }
