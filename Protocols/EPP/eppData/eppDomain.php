@@ -80,7 +80,6 @@ class eppDomain {
      * @param string $authorisationCode
      */
     public function __construct($domainname, $registrant = null, $contacts = null, $hosts = null, $period = 0, $authorisationCode = null) {
-
         if (strlen($domainname)) {
             $this->setDomainname($domainname);
         } else {
@@ -88,7 +87,7 @@ class eppDomain {
         }
         $this->setPeriod($period);
         if ($registrant instanceof eppContact) {
-            throw new eppException('Registrant must be Metaregistrar\EPP\eppContactHandle or string on eppDomain creation');
+            throw new eppException('Registrant must be Guanjia\EPP\eppContactHandle or string on eppDomain creation');
         }
         if ($registrant instanceof eppContactHandle) {
             $this->setRegistrant($registrant->getContactHandle());
@@ -97,7 +96,7 @@ class eppDomain {
                 if (strlen($registrant)) {
                     $this->setRegistrant($registrant);
                 } else {
-                    throw new eppException('Registrant must be Metaregistrar\EPP\eppContactHandle or string on eppDomain creation');
+                    throw new eppException('Registrant must be Guanjia\EPP\eppContactHandle or string on eppDomain creation');
                 }
             }
         }
