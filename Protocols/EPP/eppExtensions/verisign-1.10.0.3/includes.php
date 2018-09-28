@@ -19,14 +19,20 @@ foreach($requestes as $request){
     include_once($request);
 }
 
-// 新的对应关系
-$this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckDomainRequest','Guanjia\\EPP\\verisignEppCheckDomainResponse');
-$this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckHostRequest','Guanjia\\EPP\\verisignEppCheckHostResponse');
+// contact
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckContactRequest','Guanjia\\EPP\\verisignEppCheckContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateContactRequest','Guanjia\\EPP\\verisignEppCreateContactResponse');
-$this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateDomainRequest','Guanjia\\EPP\\verisignEppCreateDomainResponse');
-$this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateHostRequest','Guanjia\\EPP\\verisignEppCreateHostResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoContactRequest','Guanjia\\EPP\\verisignEppInfoContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteContactRequest','Guanjia\\EPP\\verisignEppDeleteContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateContactRequest','Guanjia\\EPP\\verisignEppUpdateContactResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppTransferContactRequest','Guanjia\\EPP\\verisignEppTransferContactResponse');
+
+// host
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateHostRequest','Guanjia\\EPP\\verisignEppCreateHostResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckHostRequest','Guanjia\\EPP\\verisignEppCheckHostResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteHostRequest','Guanjia\\EPP\\verisignEppDeleteHostResponse');
+
+// domain
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateDomainRequest','Guanjia\\EPP\\verisignEppCreateDomainResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckDomainRequest','Guanjia\\EPP\\verisignEppCheckDomainResponse');
 

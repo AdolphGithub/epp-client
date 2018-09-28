@@ -25,7 +25,7 @@ class verisignEppUpdateContactRequest extends verisignBaseRequest
     private function createContact(eppContact $epp_contact,eppContactPostalInfo $epp_postal_info)
     {
         $contact_update = $this->createElement('contact:'.$this->type);
-        $this->setAttributes($contact_update,[
+        $contact_update = $this->setAttributes($contact_update,[
             'xmlns:contact' =>  'urn:ietf:params:xml:ns:contact-1.0',
             'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
@@ -48,7 +48,7 @@ class verisignEppUpdateContactRequest extends verisignBaseRequest
             $contact_addr->appendChild($this->createElement('contact:street',$street));
         }
 
-        $this->appendChildes($contact_addr,[
+        $contact_addr = $this->appendChildes($contact_addr,[
             'contact:city'  =>  $epp_postal_info->getCity(),
             'contact:sp'    =>  $epp_postal_info->getProvince(),
             'contact:pc'    =>  $epp_postal_info->getZipcode(),
