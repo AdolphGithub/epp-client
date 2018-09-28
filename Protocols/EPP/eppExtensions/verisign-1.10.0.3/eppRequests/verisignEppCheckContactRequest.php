@@ -22,10 +22,12 @@ class verisignEppCheckContactRequest extends verisignBaseRequest
     function __construct($checkrequest,$sub_contact = 'dotCOM',$type = eppRequest::TYPE_CHECK) {
         parent::__construct();
         $check = $this->createElement($type);
-        $this->contact_object = $this->createElement('contact:'.$type);
-        $this->contact_object->setAttribute('xmlns:contact','urn:ietf:params:xml:ns:contact-1.0');
-        $this->contact_object->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $this->contact_object->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd');
+        $this->contact_object = $this->setAttributes('contact:'.$type,[
+            'xmlns:contact'     =>  'urn:ietf:params:xml:ns:contact-1.0',
+            'xmlns:xsi'         =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'=>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
+        ]);
+
         $check->appendChild($this->contact_object);
         $this->getCommand()->appendChild($check);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');

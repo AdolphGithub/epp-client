@@ -5,7 +5,7 @@ class verisignBaseRequest extends eppRequest
 {
     public function appendExtension($type = 'dotCOM')
     {
-        $namestoreExt = $this->setAttributes($this->createElement('namestoreExt:namestoreExt'),[
+        $namestoreExt = $this->setAttributes('namestoreExt:namestoreExt',[
             'xmlns:namestoreExt'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
             'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
@@ -21,12 +21,17 @@ class verisignBaseRequest extends eppRequest
 
     /**
      * 批量赋值.
-     * @param \DOMElement $dom
+     * @param \DOMElement|string $dom
      * @param array $attributes
      * @return \DOMElement
      */
-    public function setAttributes(\DOMElement $dom,array $attributes)
+    public function setAttributes($dom,array $attributes)
     {
+        // 自动创建一个对象.
+        if(!($dom instanceof \DOMElement)){
+            $dom = $this->createElement($dom);
+        }
+
         foreach($attributes as $key=>$value){
             $dom->setAttribute($key,$value);
         }
