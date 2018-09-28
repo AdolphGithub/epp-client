@@ -5,7 +5,7 @@ namespace Guanjia\EPP;
 
 class verisignEppCreateDomainRequest extends eppRequest
 {
-
+    //联系人类别
     const CONTACT_TYPE_REGISTRANT = 'reg';
     const CONTACT_TYPE_ADMIN = 'admin';
     const CONTACT_TYPE_TECH = 'tech';
@@ -37,7 +37,7 @@ class verisignEppCreateDomainRequest extends eppRequest
 
         $this->addContacts($createinfo);
 
-//        $this->addSessionId();
+        $this->addSessionId();
     }
 
 
