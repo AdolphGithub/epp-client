@@ -2,7 +2,7 @@
 namespace Guanjia;
 
 class Loader{
-    // Metaregistrar\EPP\verisignEppConnection
+    // Guanjia\EPP\verisignEppConnection
     public static function autoloadRegistry($className) {
         $fileName = str_replace('Guanjia\\EPP\\', '', $className);
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {

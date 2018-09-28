@@ -170,7 +170,6 @@ class eppResponse extends \DOMDocument {
         $resultcode = $this->getResultCode();
         $success = ($resultcode{0} == '0');
         if (!$success) {
-//            var_dump($resultcode);exit;
             switch ($resultcode{1}) {
                 case '0':
                     $this->setProblemtype('syntax');
