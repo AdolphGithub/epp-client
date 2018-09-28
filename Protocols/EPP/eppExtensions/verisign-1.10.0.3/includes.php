@@ -28,4 +28,5 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateDomainRequest','Guanji
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateHostRequest','Guanjia\\EPP\\verisignEppCreateHostResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoContactRequest','Guanjia\\EPP\\verisignEppInfoContactResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteContactRequest','Guanjia\\EPP\\verisignEppDeleteContactResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateContactRequest','Guanjia\\EPP\\verisignEppUpdateContactResponse');
 
