@@ -18,7 +18,7 @@ class verisignEppTransferContactRequest extends verisignBaseRequest
         $transfer = $this->appendChildes($this->setAttributes($this->createElement($this->type),[
             'op'    =>  $action
         ]),[
-            'contact:transfer'  =>  $this->appendChildes($this->setAttributes($this->createElement('contact:'. $this->type),[
+            'contact:transfer'  =>  $this->appendChildes($this->setAttributes('contact:'. $this->type,[
                 'xmlns:contact'     =>  'urn:ietf:params:xml:ns:contact-1.0',
                 'xmlns:xsi'         =>  'http://www.w3.org/2001/XMLSchema-instance',
                 'xsi:schemaLocation'=>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd',

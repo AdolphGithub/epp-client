@@ -10,7 +10,7 @@ class verisignEppDeleteHostRequest extends verisignBaseRequest
         parent::__construct();
 
         $delete = $this->appendChildes($this->createElement($this->type),[
-            'host:' . $this->type => $this->appendChildes($this->setAttributes($this->createElement('host:'.$this->type),[
+            'host:' . $this->type => $this->appendChildes($this->setAttributes('host:'.$this->type,[
                 'xmlns:host'            =>  'urn:ietf:params:xml:ns:host-1.0',
                 'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
                 'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd',
