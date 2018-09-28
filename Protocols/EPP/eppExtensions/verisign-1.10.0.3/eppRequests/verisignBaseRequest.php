@@ -7,11 +7,13 @@ class verisignBaseRequest extends eppRequest
     {
         $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
 
-        $this->setAttributes($namestoreExt,[
+        $namestoreExt = $this->setAttributes($namestoreExt,[
             'xmlns:namestoreExt'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
             'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
-        ])->appendChild(
+        ]);
+
+        $namestoreExt->appendChild(
             $this->createElement('namestoreExt:subProduct',$type)
         );
 
@@ -25,7 +27,7 @@ class verisignBaseRequest extends eppRequest
      * @param array $attributes
      * @return \DOMElement
      */
-    public function setAttributes(\DOMElement &$dom,array $attributes)
+    public function setAttributes(\DOMElement $dom,array $attributes)
     {
         foreach($attributes as $key=>$value){
             $dom->setAttribute($key,$value);
@@ -64,7 +66,7 @@ class verisignBaseRequest extends eppRequest
             }
 
             if(isset($attributes)){
-                foreach($attributes as &$attr){
+                foreach($attributes as $attr){
                     list($attr_key,$attr_value) = explode('=',$attr);
                     $temp_dom->setAttribute($attr_key,$attr_value);
                 }
