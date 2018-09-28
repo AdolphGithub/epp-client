@@ -5,6 +5,8 @@ namespace Guanjia\EPP;
 
 class verisignEppCreateHostRequest extends eppRequest
 {
+
+    use atEppCommandTrait;
     /**
      * @var bool
      */
@@ -28,8 +30,8 @@ class verisignEppCreateHostRequest extends eppRequest
 
         $this->getCommand()->appendChild($create);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');
-        $this->appendExtension($sub_contact);//扩展
-
+//        $this->appendExtension($sub_contact);//扩展
+        $this->setAtExtensions($sub_contact);
         $this->addContacts($createhostinfo);
 
         $this->addSessionId();
@@ -41,7 +43,6 @@ class verisignEppCreateHostRequest extends eppRequest
         } else {
             throw new eppException('createinfo must be of type eppContact on eppCreateHostRequest');
         }
-        $this->addSessionId();
 
     }
 
@@ -70,18 +71,5 @@ class verisignEppCreateHostRequest extends eppRequest
         return;
     }
 
-    /**
-     * 添加扩展.
-     * @param string $sub_product
-     */
-    public function appendExtension($sub_product = 'dotCom')
-    {
-        $namestoreExt = $this->createElement('namestoreExt:namestoreExt');
-        $namestoreExt->setAttribute('xmlns:namestoreExt', 'http://www.verisign-grs.com/epp/namestoreExt-1.1');
-        $namestoreExt->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $namestoreExt->setAttribute('xsi:schemaLocation', 'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd');
-        $subProduct = $this->createElement("namestoreExt:subProduct", $sub_product);
-        $namestoreExt->appendChild($subProduct);
-        $this->getExtension()->appendChild($namestoreExt);
-    }
+
 }
