@@ -51,6 +51,22 @@ class verisignEppTransferDomainRequest extends verisignBaseRequest
 
         $this->appendExtension($sub_product,false);
 
+        if(count($codes) > 0) {
+            $verification_codes = [];
+
+            while($code = array_shift($codes)) {
+                array_push($verification_codes,$this->createElement('verificationCode:code',$code));
+            }
+
+            $verification_code = $this->appendChildes($this->setAttributes('verificationCode:encodedSignedCode',[
+                'xmlns:verificationCode'    =>  'urn:ietf:params:xml:ns:verificationCode-1.0'
+            ]),[
+                'verificationCode:code' => $codes
+            ]);
+
+            $this->getExtension()->appendChild($verification_code);
+        }
+
         if(count($other_domains) > 0) {
             $rel_dom = $this->setAttributes('relDom:' . $this->type,[
                 'xmlns:relDom'  =>  'http://www.verisign.com/epp/relatedDomain-1.0'
