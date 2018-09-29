@@ -34,7 +34,6 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteHostRequest','Guanjia\
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoHostRequest','Guanjia\\EPP\\verisignEppInfoHostResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateHostRequest','Guanjia\\EPP\\verisignEppUpdateHostResponse');
 
-
 // domain
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCreateDomainRequest','Guanjia\\EPP\\verisignEppCreateDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppCheckDomainRequest','Guanjia\\EPP\\verisignEppCheckDomainResponse');
@@ -42,3 +41,4 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppDeleteDomainRequest','Guanji
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoDomainRequest','Guanjia\\EPP\\verisignEppInfoDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateDomainRequest','Guanjia\\EPP\\verisignEppUpdateDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppRenewDomainRequest','Guanjia\\EPP\\verisignEppRenewDomainResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppTransferDomainRequest','Guanjia\\EPP\\verisignEppTransferDomainResponse');
