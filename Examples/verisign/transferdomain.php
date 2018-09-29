@@ -14,7 +14,7 @@ use Guanjia\EPP\verisignEppTransferDomainRequest;
 
 try {
     // Please enter your own settings file here under before using this example
-    if ($conn = eppConnection::create(__DIR__ . '/settings.ini',true)) {
+    if ($conn = eppConnection::create('',true)) {
         // Connect to the EPP server
         if ($conn->login()) {
             echo "create domain\n";

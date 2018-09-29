@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/../../Loader.php';
 
 \Guanjia\Loader::load();
@@ -9,7 +10,7 @@ use Guanjia\EPP\eppDomain;
 use Guanjia\EPP\eppContactHandle;
 use Guanjia\EPP\eppHost;
 use Guanjia\EPP\verisignEppCreateDomainRequest;
-use Guanjia\EPP\verisignEppSyncDomainRequest;
+use Guanjia\EPP\verisignEppRestoreDomainRequest;
 try {
     // Please enter your own settings file here under before using this example
     if ($conn = eppConnection::create('',true)) {
@@ -23,15 +24,35 @@ try {
             $code = 'YXNka2ZqbGFrc2pkZg==';
             $domain_info = createdomain($conn, $domainname, $contactid, $contactid, $contactid, $contactid, $nameservers);
 
-            echo "sync domain start\n";
-            $request = new verisignEppSyncDomainRequest($domain_info['domain_name'],[
-                'month' =>  5,
-                'day'   =>  2
+            echo "restore domain start\n";
+////----------------------------------- restore request ---------------------------------------------------
+//            $request = new verisignEppRestoreDomainRequest();
+//            $request->doRequest($domain_info['domain_name'],'dotCOM');
+//            if($response = $conn->request($request)){
+//                echo 'sync domain success' . "\n";
+//            }
+////----------------------------------- restore request ---------------------------------------------------
+
+//----------------------------------- restore report  ---------------------------------------------------
+            $request = new verisignEppRestoreDomainRequest();
+            $request->doReport([
+                'domain_name'   =>  $domain_info['domain_name'],
+                'preData'       =>  'Pre-WhoIs Data...',
+                'postData'      =>  'Post-WhoIs Data...',
+                'delTime'       =>  '2019-09-29T22:00:00.0Z',
+                'resTime'       =>  '2019-11-29T22:00:00.0Z',
+                'resReason'     =>  'Customer forgot to renew.',
+                'statement'     =>  [
+                    'I agree that the Domain Name has not been restored in order to assume the rights to use or sell the name to myself or for any third party.',
+                    'I agree that the information provided in this Restore Report is true to the best of my knowledge, and acknowledge that intentionally supplying false information in the Restore Report shall constitute an incurable material breach of the Registry-Registrar Agreement.'
+                ],
+                'other'         =>  ''
             ],'dotCOM');
 
             if($response = $conn->request($request)){
                 echo 'sync domain success' . "\n";
             }
+//----------------------------------- restore report  ---------------------------------------------------
             $conn->logout();
         }
     }
