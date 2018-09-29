@@ -12,8 +12,18 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
     {
         parent::__construct();
         $element = $this->createElement($this->type);
+
+        $domain_update = $this->createElement('domain:'.$this->type);
+        $domain_update = $this->setAttributes($domain_update,[
+            'xmlns:contact' =>  'urn:ietf:params:xml:ns:contact-1.0',
+            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
+        ]);
+        $element->appendChild($domain_update);
+
         // 批量设值
         $this->createContact($domainname, $addinfo, $removeinfo, $updateinfo);
+        $element->appendChild($this->domainobject);
         $this->getCommand()->appendChild($element);
        $this->setAtExtensions($sub_product);
     }
@@ -25,14 +35,9 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
      * @param eppDomain $updateinfo
      * @throws eppException
      */
-    private function createContact($objectname,$addinfo,$removeinfo,$updateinfo)
+    public function createContact($objectname,$addinfo,$removeinfo,$updateinfo)
     {
-        $contact_update = $this->createElement('contact:'.$this->type);
-        $contact_update = $this->setAttributes($contact_update,[
-            'xmlns:contact' =>  'urn:ietf:params:xml:ns:contact-1.0',
-            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
-        ]);
+
 
         if ($objectname instanceof eppDomain) {
             $domainname = $objectname->getDomainname();
@@ -45,30 +50,29 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         }
 
         if (($addinfo instanceof eppDomain) || ($removeinfo instanceof eppDomain) || ($updateinfo instanceof eppDomain)) {
-            $this->updateDomain($contact_update,$domainname, $addinfo, $removeinfo, $updateinfo);
+            $this->updateDomain($domainname, $addinfo, $removeinfo, $updateinfo);
         } else {
             throw new eppException('addinfo, removeinfo and updateinfo needs to be eppDomain object on eppUpdateDomainRequest');
         }
 
     }
 
-    public function updateDomain($contact_update,$domainname, $addInfo, $removeInfo, $updateInfo) {
+    public function updateDomain($domainname, $addInfo, $removeInfo, $updateInfo) {
         #
         # Object create structure
         #
-
         $this->domainobject = $this->createElement('domain:name', $domainname);
-        if ($addInfo instanceof eppDomain) {
+        if ($addInfo instanceof eppDomain && $addInfo) {
             $addcmd = $this->createElement('domain:add');
             $this->addDomainChanges($addcmd, $addInfo);
             $this->domainobject->appendChild($addcmd);
         }
-        if ($removeInfo instanceof eppDomain) {
+        if ($removeInfo instanceof eppDomain && $removeInfo) {
             $remcmd = $this->createElement('domain:rem');
             $this->addDomainChanges($remcmd, $removeInfo);
             $this->domainobject->appendChild($remcmd);
         }
-        if ($updateInfo instanceof eppDomain) {
+        if ($updateInfo instanceof eppDomain && $updateInfo) {
             $chgcmd = $this->createElement('domain:chg');
             $this->addDomainChanges($chgcmd, $updateInfo);
             $this->domainobject->appendChild($chgcmd);
@@ -186,7 +190,7 @@ return $this->appendChildes($dom,[
     }
 
 
-    protected function setAtExtensions($sub_contact)
+    protected function setAtExtensions12($sub_contact)
     {
 
         $namestore_ext = $this->createElement('namestoreExt:namestoreExt');
@@ -240,6 +244,24 @@ return $this->appendChildes($dom,[
                     ]
                 ]
             ]));
+
+
+        $subProduct = $this->createElement("namestoreExt:subProduct", $sub_contact);
+        $namestore_ext->appendChild($subProduct);
+        $this->getExtension()->appendChild($namestore_ext);
+
+    }
+
+    protected function setAtExtensions($sub_contact)
+    {
+
+        $namestore_ext = $this->createElement('namestoreExt:namestoreExt');
+
+        $this->setAttributes($namestore_ext,[
+            'xmlns:namestoreExt' =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
+            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
+        ]);
 
 
         $subProduct = $this->createElement("namestoreExt:subProduct", $sub_contact);
