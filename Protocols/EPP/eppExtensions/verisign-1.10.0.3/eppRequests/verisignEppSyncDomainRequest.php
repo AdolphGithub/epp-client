@@ -24,12 +24,20 @@ class verisignEppSyncDomainRequest extends verisignBaseRequest
 
         $this->appendExtension($sub_product,false);
 
+        if(strlen($date['month']) == 1){
+            $date['month'] = '0'.$date['month'];
+        }
+
+        if(strlen($date['day']) == 1){
+            $date['day'] = '0'.$date['day'];
+        }
+
         $sync = $this->appendChildes($this->setAttributes('sync:update',[
             'xmlns:sync'    =>  'http://www.verisign.com/epp/sync-1.0',
             'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation'    =>  'http://www.verisign.com/epp/sync-1.0 sync-1.0.xsd'
         ]),[
-            'sync:expMonthDay'  =>  sprintf('--%2d-%2d',$date['month'],$date['day'])
+            'sync:expMonthDay'  =>  sprintf('--%s-%s',$date['month'],$date['day'])
         ]);
 
         $this->getExtension()->appendChild($sync);
