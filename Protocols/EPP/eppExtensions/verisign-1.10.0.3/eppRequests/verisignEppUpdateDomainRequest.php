@@ -7,14 +7,15 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
 {
     private $type = eppRequest::TYPE_UPDATE;
     public $domainobject = null;
+    private $forcehostattr = false;
     public function __construct($domainname, $addinfo = null, $removeinfo = null, $updateinfo = null, $forcehostattr=false, $namespacesinroot=true,$sub_product = 'dotCOM')
     {
         parent::__construct();
         $element = $this->createElement($this->type);
         // 批量设值
-        $element->appendChild($this->createContact($domainname, $addinfo, $removeinfo, $updateinfo));
+        $this->createContact($domainname, $addinfo, $removeinfo, $updateinfo);
         $this->getCommand()->appendChild($element);
-       $this->setAtExtensions();
+       $this->setAtExtensions($sub_product);
     }
 
     /**
@@ -51,11 +52,12 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
 
     }
 
-    public function updateDomain($domainname, $addInfo, $removeInfo, $updateInfo) {
+    public function updateDomain($contact_update,$domainname, $addInfo, $removeInfo, $updateInfo) {
         #
         # Object create structure
         #
-        $this->domainobject->appendChild($this->createElement('domain:name', $domainname));
+
+        $this->domainobject = $this->createElement('domain:name', $domainname);
         if ($addInfo instanceof eppDomain) {
             $addcmd = $this->createElement('domain:add');
             $this->addDomainChanges($addcmd, $addInfo);
@@ -299,6 +301,14 @@ return $this->appendChildes($dom,[
     protected function addDomainHostObj(eppHost $host) {
         $ns = $this->createElement('domain:hostObj', $host->getHostname());
         return $ns;
+    }
+
+    public function getForcehostattr() {
+        return $this->forcehostattr;
+    }
+
+    public function setForcehostattr($forcehostattr) {
+        $this->forcehostattr = $forcehostattr;
     }
 
 
