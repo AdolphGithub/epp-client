@@ -42,3 +42,4 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppInfoDomainRequest','Guanjia\
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppUpdateDomainRequest','Guanjia\\EPP\\verisignEppUpdateDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppRenewDomainRequest','Guanjia\\EPP\\verisignEppRenewDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppTransferDomainRequest','Guanjia\\EPP\\verisignEppTransferDomainResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppSyncDomainRequest','Guanjia\\EPP\\verisignEppSyncDomainResponse');
