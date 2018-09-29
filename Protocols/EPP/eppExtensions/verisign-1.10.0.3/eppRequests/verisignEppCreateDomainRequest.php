@@ -5,6 +5,11 @@ namespace Guanjia\EPP;
 
 class verisignEppCreateDomainRequest extends verisignBaseRequest
 {
+    //联系人类别
+    const CONTACT_TYPE_REGISTRANT = 'reg';
+    const CONTACT_TYPE_ADMIN = 'admin';
+    const CONTACT_TYPE_TECH = 'tech';
+    const CONTACT_TYPE_BILLING = 'billing';
     /**
      * @var bool
      */
@@ -16,22 +21,32 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
      */
     public $contact_object = null;
 
-    function __construct($createrequest,$sub_contact = 'dotCOM',$type = eppRequest::TYPE_CREATE) {
+    function __construct($createinfo,$sub_contact = 'dotCOM',$type = eppRequest::TYPE_CREATE) {
         parent::__construct();
-        $check = $this->createElement($type);
+        $create = $this->createElement($type);
         $this->contact_object = $this->createElement('domain:'.$type);
         $this->contact_object->setAttribute('xmlns:contact','urn:ietf:params:xml:ns:contact-1.0');
         $this->contact_object->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
         $this->contact_object->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd');
-        $check->appendChild($this->contact_object);
-        $this->getCommand()->appendChild($check);
+
+        $create->appendChild($this->contact_object);
+
+        $this->getCommand()->appendChild($create);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');
-        $this->appendExtension($sub_contact);
-        $this->addContacts($createrequest);
+        $this->appendExtension($sub_contact);//扩展
+
+        $this->addContacts($createinfo);
+
+        $this->addSessionId();
     }
 
 
-    public function addContacts(eppContact $contact){
+    public function addContacts( eppDomain $createinfo){
+        if ($createinfo instanceof eppDomain) {
+            $this->setDomain($createinfo);
+        } else {
+            throw new eppException('createinfo必须是eppCreateDomainRequest的eppDomain类型');
+        }
 
     }
 
@@ -95,10 +110,10 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
      */
     public function setDomain(eppDomain $domain) {
         if (!strlen($domain->getDomainname())) {
-            throw new eppException('No valid domain name in create domain request');
+            throw new eppException('创建域请求中没有有效的域名');
         }
         if (!strlen($domain->getRegistrant())) {
-            throw new eppException('No valid registrant in create domain request');
+            throw new eppException('在创建域请求中没有有效的注册人');
         }
         #
         # Object create structure
@@ -148,7 +163,7 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
                 }
             }
         }
-        return;
+
     }
 
     /**

@@ -750,6 +750,7 @@ class eppConnection {
             $content->addNamespaces($this->getServices());
             $content->addNamespaces($this->getExtensions());
         }
+
         $response = $this->createResponse($content);
         /* @var $response eppResponse */
         if (!$response) {

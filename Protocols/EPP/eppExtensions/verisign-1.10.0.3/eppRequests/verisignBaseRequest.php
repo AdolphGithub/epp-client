@@ -5,6 +5,15 @@ class verisignBaseRequest extends eppRequest
 {
     public function appendExtension($type = 'dotCOM')
     {
+        $namestoreExt = $this->setAttributes($this->createElement('namestoreExt:namestoreExt'),[
+            'xmlns:namestoreExt'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
+            'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
+        ]);
+
+        $namestoreExt->appendChild(
+            $this->createElement('namestoreExt:subProduct',$type)
+        );
 
         $this->getExtension()->appendChild($namestoreExt);
         $this->getCommand()->appendChild($this->getExtension());
@@ -28,6 +37,7 @@ class verisignBaseRequest extends eppRequest
         }
         return $dom;
     }
+
 
     /**
      * 递归创建一堆对象.
@@ -72,4 +82,5 @@ class verisignBaseRequest extends eppRequest
 
         return $dom;
     }
+
 }

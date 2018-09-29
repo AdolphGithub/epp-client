@@ -225,7 +225,7 @@ class eppResponse extends \DOMDocument {
             if (strlen($resultreason)) {
                 $errorstring .= ' (' . $resultreason . ')';
             }
-            throw new eppException($errorstring, $resultcode, null, $resultreason, $this->saveXML());
+//            throw new eppException($errorstring, $resultcode, null, $resultreason, $this->saveXML());
         } else {
             return true;
         }
