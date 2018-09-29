@@ -22,17 +22,16 @@ class verisignEppRenewDomainRequest extends verisignBaseRequest
         $renew = $this->createElement($this->type);
         $renew->appendChild($domain_renew);
         $this->getCommand()->appendChild($renew);
-        $this->createExtension($sub_product,$codes,$domain_info);
+        $this->createExtension($sub_product,$codes,$other_domain);
     }
 
     /**
      * 创建extension.
      * @param $sub_product
      * @param $codes
-     * @param $domain_info
      * @param array $other_domain
      */
-    public function createExtension($sub_product,$codes,$domain_info,$other_domain = [])
+    public function createExtension($sub_product,$codes,$other_domain = [])
     {
         $namestore = $this->appendChildes($this->setAttributes('namestoreExt:namestoreExt',[
             'xmlns:namestoreExt'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
@@ -48,17 +47,6 @@ class verisignEppRenewDomainRequest extends verisignBaseRequest
 
         }
 
-        $domain_renew = $this->appendChildes($this->setAttributes('relDom:renew',[
-            'xmlns:relDom'  =>  'http://www.verisign.com/epp/relatedDomain-1.0'
-        ]),[
-            'relDom:domain' =>  $this->appendChildes($this->createElement('relDom:domain'),[
-                'relDom:name'   =>  $domain_info['domain_name'],
-                'relDom:curExpDate' =>  $domain_info['current_expire_date'],
-            ])
-        ]);
-
-        $this->getExtension()->appendChild($domain_renew);
-
         if(count($other_domain) > 0){
             foreach($other_domain as $domain){
                 $this->getExtension()
@@ -69,6 +57,7 @@ class verisignEppRenewDomainRequest extends verisignBaseRequest
                 ]));
             }
         }
+
         $this->getCommand()->appendChild($this->getExtension());
     }
 }
