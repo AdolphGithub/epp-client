@@ -32,7 +32,9 @@ try {
 
 
             echo "delete domain\n";
-            $request = new verisignEppDeleteDomainRequest($domainname,'alkfjlksajdlfjasldf=');
+            $request = new verisignEppDeleteDomainRequest($domainname,[
+                'alkfjlksajdlfjasldf=',
+            ]);
             if($response = $conn->request($request)){
                 echo 'delete domain success';
             }

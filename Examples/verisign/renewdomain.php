@@ -33,7 +33,9 @@ try {
                 'domain_name'   =>  $domainname,
                 'current_expire_date'   =>  date('2019-m-d',time()),
                 'period'        =>  '1'
-            ],'alkfjlksajdlfjasldf=');
+            ],[
+                'alkfjlksajdlfjasldf=',
+            ]);
             if($response = $conn->request($request)){
                 echo 'renew domain success';
             }

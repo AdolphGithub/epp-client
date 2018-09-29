@@ -22,7 +22,9 @@ try {
 //            $contactid = createcontact($conn,'test@test.com','+31.61234567890','Person name',null,'Address 1','12345','City','NL');
             $domainname = 'asdfas' . date('His',time()) . '.com';
             $contactid = "MRG5bacadc22ff8e";
-            $code = 'YXNka2ZqbGFrc2pkZg==';
+            $code = [
+                'YXNka2ZqbGFrc2pkZg==',
+            ];
             $domain_info = createdomain($conn, $domainname, $contactid, $contactid, $contactid, $contactid, $nameservers);
 
 
