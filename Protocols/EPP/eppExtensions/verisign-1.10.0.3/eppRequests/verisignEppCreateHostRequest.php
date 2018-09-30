@@ -3,10 +3,10 @@
 namespace Guanjia\EPP;
 
 
-class verisignEppCreateHostRequest extends eppRequest
+class verisignEppCreateHostRequest extends verisignBaseRequest
 {
 
-    use atEppCommandTrait;
+
     /**
      * @var bool
      */
@@ -31,7 +31,7 @@ class verisignEppCreateHostRequest extends eppRequest
         $this->getCommand()->appendChild($create);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');
 //        $this->appendExtension($sub_contact);//扩展
-        $this->setAtExtensions($sub_contact);
+        $this->appendExtension($sub_contact);
         $this->addContacts($createhostinfo);
 
         $this->addSessionId();

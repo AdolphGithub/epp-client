@@ -18,6 +18,7 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         // 添加扩展
         $this->setAtExtensions($sub_product);
         $this->setCode($code);
+        $this->addSessionId();
 
     }
 
@@ -165,67 +166,61 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
     protected function setAtExtensions($sub_contact,$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null,$relDom_name = null)
     {
 
-//        $namestore_ext = $this->createElement('namestoreExt:namestoreExt');
         $this->appendExtension($sub_contact,false);
-//        $this->setAttributes($namestore_ext,[
-//            'xmlns:namestoreExt' =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
-//            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
-//            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
-//        ]);
 
         /**
          * 加密方式
          */
         $Algorithm = [
-            '1'=>"RSA/MD5",
-            '2'=>"Diffie-Hellman",
-            '3'=>"DSA/SHA-1",
-            '4'=>"Elliptic Curve",
-            '5'=>"RSA/SHA-1",
-            '6'=>"DSA-NSEC3-SHA1",
-            '7'=>"RSASHA1-NSEC3-SHA1",
-            '8'=>"RSA/SHA-256",
-            '10'=>"RSA/SHA-512",
-            '12'=>"ECC-GOST",
-            '13'=>"ECDSA Curve P-256 with SHA-256",
-            '14'=>"ECDSA Curve P-384 with SHA-384",
-            '252'=>"Indirect",
-            '253'=>"Private DNS",
-            '254'=>"Private OID",
+            "RSA/MD5" => '1',
+            "Diffie-Hellman"  => '2',
+            "DSA/SHA-1" => '3',
+            "Elliptic Curve" => '4',
+            "RSA/SHA-1" => '5',
+            "DSA-NSEC3-SHA1" => '6',
+            "RSASHA1-NSEC3-SHA1" => '7',
+            "RSA/SHA-256" => '8',
+            "RSA/SHA-512" => '10',
+            "ECC-GOST" => '12',
+            "ECDSA Curve P-256 with SHA-256" => '13',
+            "ECDSA Curve P-384 with SHA-384" => '14',
+            "Indirect" => '252',
+            "Private DNS" => '253',
+            "Private OID" => '254',
 
         ];
         /**
          * 解释类型
          */
         $Digest_Type = [
-            '1'  =>  "SHA-1",
-            '2'  =>  "SHA-256",
-            '3'  =>  "GOST R 34.11-94",
-            '4'  =>  "SHA-384",
+          "SHA-1"  =>  '1',
+          "SHA-256"   => '2',
+          "GOST R 34.11-94"  =>  '3' ,
+          "SHA-384"  =>  '4',
         ];
         /**
          * 组装数据
          */
-//        $secdns_rem = [[885,'Diffie-Hellman','SHA-1','8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"RSA/MD5","SHA-384",'8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"DSA/SHA-1", "SHA-256",'8491674BFF957211D129B0DFE9410AF753559D4B'],];
+//        $secdns_rem = [['keyTag'=>885,'alg'=>'Diffie-Hellman','digestType'=>'SHA-1','digest'=>'8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"RSA/MD5","SHA-384",'8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"DSA/SHA-1", "SHA-256",'8491674BFF957211D129B0DFE9410AF753559D4B'],];
         if( $secdns_rem ){
             foreach ($secdns_rem as $key => $val){
                 $secdns_rem_ar[]  = $this->appendChildes($this->createElement('secDNS:dsData'),[
-                    'secDNS:keyTag' => $val['0'],
-                    'secDNS:alg' =>  array_search($val['1'],$Algorithm),
-                    'secDNS:digestType' =>array_search($val[2],$Digest_Type),
-                    'secDNS:digest' => "$val[3]",
+                    'secDNS:keyTag' => $val['keyTag'],
+                    'secDNS:alg' =>  $Algorithm[$val['alg']],
+                    'secDNS:digestType' =>$Digest_Type[$val['digestType']],
+                    'secDNS:digest' => $val['digest'],
                 ]);
             }
         }
-        $secdns_add = [[885,"RSA/SHA-512",'SHA-1','8491674BFF957211D129B0DFE9410AF753559D4B'], ];
+//        $secdns_add = [['keyTag'=>885,'alg'=>"RSA/SHA-512",'digestType'=>'SHA-1','digest'=>'8491674BFF957211D129B0DFE9410AF753559D4B'], ];
 
         if( $secdns_add ){
             foreach ($secdns_add as $key => $val){
                 $secdns_add_ar[]  = $this->appendChildes($this->createElement('secDNS:dsData'),[
-                    'secDNS:keyTag' => $val['0'],
-                    'secDNS:alg' =>  array_search($val['1'],$Algorithm),
-                    'secDNS:digestType' =>array_search($val[2],$Digest_Type),
-                    'secDNS:digest' => "$val[3]",
+                    'secDNS:keyTag' => $val['keyTag'],
+                    'secDNS:alg' =>  $Algorithm[$val['alg']],
+                    'secDNS:digestType' =>$Digest_Type[$val['digestType']],
+                    'secDNS:digest' => $val['digest'],
                 ]);
             }
         }
@@ -294,14 +289,13 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         /**
          * relDom update
          */
-        $relDom_name = ["EXAMPLE324.COM","EX123AMPLE324.COM"];
+//        $relDom_name = ["EXAMPLE324.COM","EX123AMPLE324.COM"];
         $relDom_update = $this->createElement('relDom:update');
         $this->setAttributes($relDom_update,[
             'xmlns:relDom' => 'http://www.verisign.com/epp/relatedDomain-1.0',
         ]);
         if( $relDom_name ){
             foreach ($relDom_name as $key => $val){
-//                $this->appendChildes($relDom_update,['relDom:name' => $val]);
                 $relDom_name_ar[] = $this->createElement("relDom:name",$val);
             }
             $this->appendChildes($relDom_update,$relDom_name_ar);
@@ -309,6 +303,11 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         }
 
     }
+
+    /**
+     * update code
+     * @param $codes
+     */
     public function setCode($codes){
         if(count($codes) > 0) {
             $verification_codes = [];
