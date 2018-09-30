@@ -8,7 +8,7 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
     private $type = eppRequest::TYPE_UPDATE;
     public $domainobject = null;
     private $forcehostattr = false;
-    public function __construct($domainname, $addinfo = null, $removeinfo = null, $updateinfo = null, $forcehostattr=false, $namespacesinroot=true,$sub_product = 'dotCOM')
+    public function __construct($domainname, $addinfo = null, $removeinfo = null, $updateinfo = null, $forcehostattr=false, $namespacesinroot=true,$code = null,$sub_product = 'dotCOM',$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null,$relDom_name = null)
     {
         parent::__construct();
         $element = $this->createElement($this->type);
@@ -17,6 +17,7 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         $this->getCommand()->appendChild($element);
         // 添加扩展
         $this->setAtExtensions($sub_product);
+        $this->setCode($code);
 
     }
 
@@ -161,16 +162,16 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         return $data;
     }
 
-    protected function setAtExtensions($sub_contact,$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null)
+    protected function setAtExtensions($sub_contact,$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null,$relDom_name = null)
     {
 
-        $namestore_ext = $this->createElement('namestoreExt:namestoreExt');
+//        $namestore_ext = $this->createElement('namestoreExt:namestoreExt');
         $this->appendExtension($sub_contact,false);
-        $this->setAttributes($namestore_ext,[
-            'xmlns:namestoreExt' =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
-            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
-        ]);
+//        $this->setAttributes($namestore_ext,[
+//            'xmlns:namestoreExt' =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1',
+//            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
+//            'xsi:schemaLocation'    =>  'http://www.verisign-grs.com/epp/namestoreExt-1.1 namestoreExt-1.1.xsd'
+//        ]);
 
         /**
          * 加密方式
@@ -202,7 +203,10 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
             '3'  =>  "GOST R 34.11-94",
             '4'  =>  "SHA-384",
         ];
-        $secdns_rem = [[885,'Diffie-Hellman','SHA-1','8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"RSA/MD5","SHA-384",'8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"DSA/SHA-1", "SHA-256",'8491674BFF957211D129B0DFE9410AF753559D4B'],];
+        /**
+         * 组装数据
+         */
+//        $secdns_rem = [[885,'Diffie-Hellman','SHA-1','8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"RSA/MD5","SHA-384",'8491674BFF957211D129B0DFE9410AF753559D4B'], [885,"DSA/SHA-1", "SHA-256",'8491674BFF957211D129B0DFE9410AF753559D4B'],];
         if( $secdns_rem ){
             foreach ($secdns_rem as $key => $val){
                 $secdns_rem_ar[]  = $this->appendChildes($this->createElement('secDNS:dsData'),[
@@ -225,22 +229,25 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
                 ]);
             }
         }
+//        $coa_attr = [[213,213132],[458,64845]];
+        if( $coa_attr ){
+            foreach ( $coa_attr as $key => $val ){
+                $coa_attr_ar[] = $this->appendChildes($this->createElement("coa:attr"),[
+                    'coa:key' => $val[0],
+                    'coa:value' => $val[1],
+                ]);
+            }
+        }
 
-
-       /* $coa_attr = [
-            //循环
-            'coa:attr'  => [
-                'coa:key' => '',
-                'coa:value' => '',
-            ]
-        ];
-
-        $coa_key = [
-            //循环
-            'coa:key'  =>  '',
-        ];
-*/
-
+        if( $coa_key ){
+            foreach ( $coa_key as $key => $val ){
+//                $coa_key_ar[] = ['coa:key'  =>  $val];
+                $coa_key_ar[] = $this->createElement("coa:key",$val);
+            }
+        }
+        /**
+         * secDns update
+         */
         $secdns_update = $this->createElement('secDNS:update');
         $this->setAttributes($secdns_update,[
             'xmlns:secDNS' => 'urn:ietf:params:xml:ns:secDNS-1.1',
@@ -248,22 +255,24 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
             'xsi:schemaLocation' => 'urn:ietf:params:xml:ns:secDNS-1.1 secDNS-1.1.xsd',
         ]);
 
-        if( $secdns_rem_ar ){
+        if( isset($secdns_rem_ar) ){
             $secDNS_rem  = $this->createElement("secDNS:rem");
             $this->appendChildes($secDNS_rem,$secdns_rem_ar);
             $secdns_update->appendChild($secDNS_rem);
         }
 
-        if( $secdns_add_ar ){
+        if( isset($secdns_add_ar) ){
             $secDNS_rem  = $this->createElement("secDNS:add");
             $this->appendChildes($secDNS_rem,$secdns_add_ar);
             $secdns_update->appendChild($secDNS_rem);
         }
-        if( $secdns_rem_ar || $secdns_add_ar ){
+        if( isset($secdns_rem_ar) || isset($secdns_add_ar) ){
             $this->getExtension()->appendChild($secdns_update);
         }
 
-
+        /**
+         * coa update
+         */
         $coa_update = $this->createElement('coa:update');
             $this->setAttributes($coa_update,[
                 'xmlns:coa'  =>  'urn:ietf:params:xml:ns:coa-1.0',
@@ -273,21 +282,49 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
 
         if( $coa_attr ){
             $coa_put = $this->createElement('coa:put');
-
-            $this->appendChildes($coa_put,$coa_attr);
-
-            $this->appendChildes($secdns_update,$coa_put);
+            $this->appendChildes($coa_put,$coa_attr_ar);
+            $secdns_update->appendChild($coa_put);
         }
         if( $coa_key ){
-            $this->appendChildes($coa_update,$coa_key);
+            $this->appendChildes($coa_update,$coa_key_ar);
         }
         if( $coa_key || $coa_attr ){
             $this->getExtension()->appendChild($coa_update);
         }
+        /**
+         * relDom update
+         */
+        $relDom_name = ["EXAMPLE324.COM","EX123AMPLE324.COM"];
+        $relDom_update = $this->createElement('relDom:update');
+        $this->setAttributes($relDom_update,[
+            'xmlns:relDom' => 'http://www.verisign.com/epp/relatedDomain-1.0',
+        ]);
+        if( $relDom_name ){
+            foreach ($relDom_name as $key => $val){
+//                $this->appendChildes($relDom_update,['relDom:name' => $val]);
+                $relDom_name_ar[] = $this->createElement("relDom:name",$val);
+            }
+            $this->appendChildes($relDom_update,$relDom_name_ar);
+            $this->getExtension()->appendChild($relDom_update);
+        }
 
+    }
+    public function setCode($codes){
+        if(count($codes) > 0) {
+            $verification_codes = [];
 
+            while($code = array_shift($codes)) {
+                array_push($verification_codes,$this->createElement('verificationCode:code',$code));
+            }
 
+            $verification_code = $this->appendChildes($this->setAttributes('verificationCode:encodedSignedCode',[
+                'xmlns:verificationCode'    =>  'urn:ietf:params:xml:ns:verificationCode-1.0'
+            ]),[
+                'verificationCode:code' => $codes
+            ]);
 
+            $this->getExtension()->appendChild($verification_code);
+        }
     }
 
 }
