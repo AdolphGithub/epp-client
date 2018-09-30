@@ -23,6 +23,7 @@ class verisignEppInfoDomainRequest extends verisignBaseRequest
         }else {
             throw new eppException('infodomainrequest的参数必须是eppDomain对象');
         }
+        $this->getCommand()->setAttribute("xmlns","urn:ietf:params:xml:ns:epp-1.0");
         $this->getCommand()->appendChild($info);
         $this->appendExtension($extension);
     }
