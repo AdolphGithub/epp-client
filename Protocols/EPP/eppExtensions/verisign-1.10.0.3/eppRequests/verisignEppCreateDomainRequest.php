@@ -21,7 +21,7 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
      */
     public $contact_object = null;
 
-    function __construct($createinfo,$sub_contact = 'dotCOM',$type = eppRequest::TYPE_CREATE) {
+    function __construct($createinfo,$sub_contact = 'dotCOM',$code = null,$type = eppRequest::TYPE_CREATE) {
         parent::__construct();
         $create = $this->createElement($type);
         $this->contact_object = $this->createElement('domain:'.$type);
@@ -36,7 +36,7 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
         $this->appendExtension($sub_contact);//扩展
 
         $this->addContacts($createinfo);
-
+        $this->setCode($code);
         $this->addSessionId();
     }
 
@@ -214,5 +214,27 @@ class verisignEppCreateDomainRequest extends verisignBaseRequest
 
     public function setForcehostattr($forcehostattr) {
         $this->forcehostattr = $forcehostattr;
+    }
+
+    /**
+     * update code
+     * @param $codes
+     */
+    public function setCode($codes){
+        if(count($codes) > 0) {
+            $verification_codes = [];
+
+            while($code = array_shift($codes)) {
+                array_push($verification_codes,$this->createElement('verificationCode:code',$code));
+            }
+
+            $verification_code = $this->appendChildes($this->setAttributes('verificationCode:encodedSignedCode',[
+                'xmlns:verificationCode'    =>  'urn:ietf:params:xml:ns:verificationCode-1.0'
+            ]),[
+                'verificationCode:code' => $codes
+            ]);
+
+            $this->getExtension()->appendChild($verification_code);
+        }
     }
 }

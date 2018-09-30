@@ -8,15 +8,15 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
     private $type = eppRequest::TYPE_UPDATE;
     public $domainobject = null;
     private $forcehostattr = false;
-    public function __construct($domainname, $addinfo = null, $removeinfo = null, $updateinfo = null, $forcehostattr=false, $namespacesinroot=true,$code = null,$sub_product = 'dotCOM',$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null,$relDom_name = null)
+    public function __construct($domainname, $addinfo = null, $removeinfo = null, $updateinfo = null, $add_statau=null,$rem_status=null,$forcehostattr=false, $namespacesinroot=true,$code = null,$sub_product = 'dotCOM',$secdns_add = null,$secdns_rem = null,$coa_key=null,$coa_attr = null,$relDom_name = null)
     {
         parent::__construct();
         $element = $this->createElement($this->type);
-        $this->createContact($element,$domainname,$addinfo,$removeinfo,$updateinfo);
+        $this->createContact($element,$domainname,$addinfo,$removeinfo,$updateinfo,$add_statau,$rem_status);
 //        $element->appendChild();
         $this->getCommand()->appendChild($element);
         // 添加扩展
-        $this->setAtExtensions($sub_product);
+        $this->setAtExtensions($sub_product,$secdns_add ,$secdns_rem ,$coa_key ,$coa_attr ,$relDom_name );
         $this->setCode($code);
         $this->addSessionId();
 
@@ -31,7 +31,7 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
      * @param $updateinfo
      * @throws eppException
      */
-    public function createContact(\DOMElement $dom,$objectname,$addinfo,$removeinfo,$updateinfo){
+    public function createContact(\DOMElement $dom,$objectname,$addinfo=null,$removeinfo=null,$updateinfo=null,$add_status=null,$rem_status=null){
 
         if ($objectname instanceof eppDomain) {
             $domainname = $objectname->getDomainname();
@@ -52,11 +52,11 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
         $domain_name = $this->createElement('domain:name',$domainname);
         $domain_update->appendChild($domain_name);
 
-        $add_info_ar = $this->addinfo($addinfo, $objectname);
+        $add_info_ar = $this->addinfo($addinfo, $add_status);
         if( $add_info_ar ){
             $domain_update->appendChild($add_info_ar);
         }
-        $remove_info_ar = $this->removeinfo($removeinfo,$objectname);
+        $remove_info_ar = $this->removeinfo($removeinfo,$rem_status);
         if( $remove_info_ar ){
             $domain_update->appendChild($remove_info_ar);
         }
@@ -69,12 +69,13 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
 
     /**
      * 添加 info
-     * @param $addinfo
-     * @param eppDomain $domain
+     * @param eppDomain $addinfo
+     * @param null $add_status
      * @return array|\DOMElement
      */
-    public function addinfo($addinfo, eppDomain $domain){
+    public function addinfo(eppDomain $addinfo,$add_status = null){
         $addcmd = [];
+        $domain_add = $this->createElement('domain:add');
         if( $addinfo instanceof eppDomain && $addinfo ){
             $contacts = $addinfo->getContacts();
             $contact_ar = [];
@@ -84,7 +85,6 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
                     $contact_ar['domain:contact type=' . $contact->getContactType()] = $contact->getContactHandle();
                 }
             }
-            $domain_add = $this->createElement('domain:add');
 
             $hosts = $addinfo->getHosts();
             if (is_array($hosts) && (count($hosts))) {
@@ -98,17 +98,28 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
             }
             $addcmd = $this->appendChildes($domain_add,$contact_ar);
         }
+//        $add_status = ['clientRenewProhibited','clientTransferProhibited'];
+        if( $add_status ){
+            foreach ($add_status as $key => $val){
+                $add_status_ar[] = $this->setAttributes("domain:status",[
+                    "s"=>$val
+                ]);
+            }
+            $this->appendChildes($domain_add,$add_status_ar);
+        }
 
         return $addcmd;
     }
 
     /**
      * 删除得东西
-     * @param $removeinfo
+     * @param eppDomain $removeinfo
+     * @param null $rem_status
      * @return array|\DOMElement
      */
-    public function removeinfo($removeinfo){
+    public function removeinfo(eppDomain $removeinfo,$rem_status = null ){
         $data = [];
+        $domain_add = $this->createElement('domain:rem');
         if( $removeinfo instanceof  eppDomain && $removeinfo){
 
             $contacts = $removeinfo->getContacts();
@@ -119,7 +130,6 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
                     $contact_ar['domain:contact type=' . $contact->getContactType()] = $contact->getContactHandle();
                 }
             }
-            $domain_add = $this->createElement('domain:rem');
 
             $hosts = $removeinfo->getHosts();
             if (is_array($hosts) && (count($hosts))) {
@@ -132,6 +142,15 @@ class verisignEppUpdateDomainRequest extends verisignBaseRequest
                 $domain_add->appendChild($domain_ns);
             }
             $data = $this->appendChildes($domain_add,$contact_ar);
+        }
+//        $rem_status = ['clientHold'];
+        if( $rem_status ){
+            foreach ($rem_status as $key => $val){
+                $rem_status_ar[] = $this->setAttributes("domain:status",[
+                    "s"=>$val
+                ]);
+            }
+            $this->appendChildes($domain_add,$rem_status_ar);
         }
         return $data;
     }
