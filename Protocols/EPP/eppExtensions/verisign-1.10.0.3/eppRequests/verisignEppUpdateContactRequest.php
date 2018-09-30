@@ -24,8 +24,7 @@ class verisignEppUpdateContactRequest extends verisignBaseRequest
      */
     private function createContact(eppContact $epp_contact,eppContactPostalInfo $epp_postal_info)
     {
-        $contact_update = $this->createElement('contact:'.$this->type);
-        $contact_update = $this->setAttributes($contact_update,[
+        $contact_update = $this->setAttributes('contact:'.$this->type,[
             'xmlns:contact' =>  'urn:ietf:params:xml:ns:contact-1.0',
             'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'

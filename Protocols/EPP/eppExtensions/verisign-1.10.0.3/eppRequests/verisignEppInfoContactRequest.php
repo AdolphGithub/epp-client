@@ -25,10 +25,12 @@ class verisignEppInfoContactRequest extends verisignBaseRequest
      */
     private function createContact(array $data)
     {
-        $this->contact_object = $this->createElement('contact:info');
-        $this->contact_object->setAttribute('xmlns:contact','urn:ietf:params:xml:ns:contact-1.0');
-        $this->contact_object->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $this->contact_object->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd');
+        $this->contact_object = $this->setAttributes('contact:info',[
+            'xmlns:contact' =>  'urn:ietf:params:xml:ns:contact-1.0',
+            'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
+        ]);
+
         $this->contact_object->appendChild($this->createElement('contact:id',$data['contact_id']));
 
         if(array_key_exists('auth_info',$data) && $data['auth_info'])
