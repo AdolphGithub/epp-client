@@ -18,7 +18,6 @@ class verisignEppTransferDomainRequest extends verisignBaseRequest
 
     /**
      * transfer request.
-     * @todo 没有使用codes
      * @param $data
      * @param $codes
      * @param string $sub_product

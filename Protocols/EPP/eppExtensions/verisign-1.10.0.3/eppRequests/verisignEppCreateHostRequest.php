@@ -21,10 +21,11 @@ class verisignEppCreateHostRequest extends verisignBaseRequest
     function __construct($createhostinfo,$sub_contact = 'dotCOM',$type = eppRequest::TYPE_CREATE) {
         parent::__construct();
         $create = $this->createElement($type);
-        $this->contact_object = $this->createElement('host:'.$type);
-        $this->contact_object->setAttribute('xmlns:contact','urn:ietf:params:xml:ns:contact-1.0');
-        $this->contact_object->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $this->contact_object->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd');
+        $this->contact_object = $this->setAttributes('host:'.$type,[
+            'xmlns:contact'         =>  'urn:ietf:params:xml:ns:contact-1.0',
+            'xmlns:xsi'             =>  'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd'
+        ]);
 
         $create->appendChild($this->contact_object);
 

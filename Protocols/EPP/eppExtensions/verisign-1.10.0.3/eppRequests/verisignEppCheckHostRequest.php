@@ -21,12 +21,13 @@ class verisignEppCheckHostRequest extends verisignBaseRequest
 
     function __construct($checkrequest,$type = eppRequest::TYPE_CHECK) {
         parent::__construct();
-        $check = $this->createElement($type);
-        $this->domainobject = $this->createElement('host:'.$type);
-        $this->domainobject->setAttribute('xmlns:host','urn:ietf:params:xml:ns:host-1.0');
-        $this->domainobject->setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
-        $this->domainobject->setAttribute('xsi:schemaLocation','urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd');
-        $check->appendChild($this->domainobject);
+        $check = $this->appendChildes($this->createElement($type),[
+            'host:'.$type   =>  $this->setAttributes('host:'.$type,[
+                'xmlns:host'    =>  'urn:ietf:params:xml:ns:host-1.0',
+                'xmlns:xsi'     =>  'http://www.w3.org/2001/XMLSchema-instance',
+                'xsi:schemaLocation'    =>  'urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd'
+            ])
+        ]);
         $this->getCommand()->appendChild($check);
         $this->getCommand()->setAttribute('xmlns','urn:ietf:params:xml:ns:epp-1.0');
         $this->appendExtension($this->getDomainType($checkrequest));
