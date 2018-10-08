@@ -25,7 +25,7 @@ epp登录客户端
 - Verisign (.com and .net)
 ### 安装
 ```shell
-composer require "guanjia/epp-client:dev-master"
+composer require guanjia/epp-client
 ```
 ### 使用
 详情请看Examples例子
