@@ -149,24 +149,25 @@ class eppConnection {
     protected $logFile = null;
 
     /**
-     * @param string $configfile
+     * @param string|array $config
      * @param bool|false $debug
      * @return eppConnection
      * @throws eppException
      */
-    static function create($configfile,$debug=false) {
-        if ($configfile) {
-            if (is_readable($configfile)) {
-                $settings = file($configfile, FILE_IGNORE_NEW_LINES);
+    static function create($config,$debug=false) {
+        if ($config) {
+            if(is_array($config)){
+                $result = $config;
+            }elseif(is_readable($config)){
+                $settings = file($config, FILE_IGNORE_NEW_LINES);
                 foreach ($settings as $setting) {
                     list($param, $value) = explode('=', $setting, 2);
                     $param = trim($param);
                     $value = trim($value);
                     $result[$param] = $value;
                 }
-
-            } else {
-                throw new eppException('File not found: '.$configfile);
+            }else {
+                throw new eppException('File not found: '. $config);
             }
         } else {
             throw new eppException('Configuration file not specified on eppConnection:create');
@@ -176,7 +177,7 @@ class eppConnection {
 //            var_dump($classname);exit;
             $c = new $classname($debug);
             /* @var $c eppConnection */
-            $c->setConnectionDetails($configfile);
+            $c->setConnectionDetails($result);
             return $c;
         }
         return null;
@@ -1000,35 +1001,23 @@ class eppConnection {
         $this->logging = true;
     }
 
-    public function setConnectionDetails($settingsfile) {
-        $result = array();
-        if (is_readable($settingsfile)) {
-            $settings = file($settingsfile, FILE_IGNORE_NEW_LINES);
-            foreach ($settings as $setting) {
-                list($param, $value) = explode('=', $setting, 2);
-                $param = trim($param);
-                $value = trim($value);
-                $result[$param] = $value;
-            }
-            $this->setHostname($result['hostname']);
-            $this->setUsername($result['userid']);
-            $this->setPassword($result['password']);
-            if (array_key_exists('port',$result)) {
-                $this->setPort($result['port']);
-            } else {
-                $this->setPort(700);
-            }
-            if (array_key_exists('certificatefile',$result) && array_key_exists('certificatepassword',$result)) {
-                // Enter the path to your certificate and the password here
-                $this->enableCertification($result['certificatefile'], $result['certificatepassword']);
-            } elseif (array_key_exists('certificatefile',$result)) {
-                // Enter the path to your certificate without password
-                $this->enableCertification($result['certificatefile'], null);
-            }
-            return true;
+    public function setConnectionDetails($settings) {
+        $this->setHostname($settings['hostname']);
+        $this->setUsername($settings['userid']);
+        $this->setPassword($settings['password']);
+        if (array_key_exists('port',$settings)) {
+            $this->setPort($settings['port']);
         } else {
-            throw new eppException("Settings file $settingsfile could not be opened");
+            $this->setPort(700);
         }
+        if (array_key_exists('certificatefile',$settings) && array_key_exists('certificatepassword',$settings)) {
+            // Enter the path to your certificate and the password here
+            $this->enableCertification($settings['certificatefile'], $settings['certificatepassword']);
+        } elseif (array_key_exists('certificatefile',$settings)) {
+            // Enter the path to your certificate without password
+            $this->enableCertification($settings['certificatefile'], null);
+        }
+        return true;
     }
 
     protected function loadSettings($directory, $settingsfile) {
