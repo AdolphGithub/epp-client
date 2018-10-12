@@ -44,3 +44,7 @@ $this->addCommandResponse('Guanjia\\EPP\\verisignEppRenewDomainRequest','Guanjia
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppTransferDomainRequest','Guanjia\\EPP\\verisignEppTransferDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppSyncDomainRequest','Guanjia\\EPP\\verisignEppSyncDomainResponse');
 $this->addCommandResponse('Guanjia\\EPP\\verisignEppRestoreDomainRequest','Guanjia\\EPP\\verisignEppRestoreDomainResponse');
+//poll
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppPollAckRequest','Guanjia\\EPP\\verisignEppPollAckResponse');
+$this->addCommandResponse('Guanjia\\EPP\\verisignEppPollReqRequest','Guanjia\\EPP\\verisignEppPollReqResponse');
+
