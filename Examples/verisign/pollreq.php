@@ -17,7 +17,8 @@ try {
             $request = new verisignEppPollReqRequest();
             if($response = $conn->request($request)){
                 /* @var $response Guanjia\EPP\verisignEppPollReqResponse */
-                $request->saveXML();
+                $response->saveXML();
+                $response->getMessageId();
             }
             $conn->logout();
         }
