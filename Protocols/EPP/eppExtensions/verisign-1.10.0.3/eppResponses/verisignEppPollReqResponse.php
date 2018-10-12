@@ -15,13 +15,13 @@ class verisignEppPollReqResponse extends verisignBaseResponse
 
     private $messageType = null;
 
-    function __construct() {
-        parent::__construct();
-    }
-
-    function __destruct() {
-        parent::__destruct();
-    }
+//    function __construct() {
+//        parent::__construct();
+//    }
+//
+//    function __destruct() {
+//        parent::__destruct();
+//    }
     public function getDelDataName() {
         $xpath = $this->xPath();
         $result = $xpath->query('/epp:epp/epp:response/epp:resData/polldata:polldata/polldata:resData/polldata:delData/polldata:name');

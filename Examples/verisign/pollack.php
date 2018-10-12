@@ -18,7 +18,7 @@ try {
             $request = new verisignEppPollAckRequest($messageid);
             /* @var $response Guanjia\EPP\verisignEppPollAckResponse */
             if($response = $conn->request($request)){
-                return $request->getDelDataName();
+               echo "ok";
             }
             $conn->logout();
         }
